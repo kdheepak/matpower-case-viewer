@@ -1,15 +1,8 @@
 <script>
-import MatpowerWorker from '../workers/matpower?worker'
 import * as d3 from 'd3'
-import wasm from '../../wasm-matpower/pkg/wasm-matpower_bg.wasm'
 
 function create_worker() {
-  if (process.env.NODE_ENV === 'production') {
-    var worker = new MatpowerWorker()
-  } else {
-    var worker = new Worker('src/workers/matpower.js')
-  }
-  return worker
+  return new Worker(new URL("../workers/matpower.js", import.meta.url), {type: 'module'})
 }
 
 const worker = create_worker()
