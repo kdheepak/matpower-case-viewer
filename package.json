@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "deploy-build": "vue-tsc --noEmit && vite build --base=/matpower-case-viewer/",
     "preview": "vite preview",
     "deploy": "sh scripts/deploy.sh"
   },
