@@ -1,4 +1,4 @@
 module.exports = {
   publicPath:
-    process.env.NODE_ENV === 'production' ? '/matpower-case-viewer/' : '/',
+    process.env.NODE_ENV === 'ghpages' ? '/matpower-case-viewer/' : '/',
 }
