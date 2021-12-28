@@ -1,10 +1,18 @@
 <script>
 import MatpowerWorker from '../workers/matpower?worker'
-import init from '../../wasm-matpower/pkg'
+import * as d3 from 'd3'
+import wasm from '../../wasm-matpower/pkg/wasm-matpower_bg.wasm'
 
-init()
+function create_worker() {
+  if (process.env.NODE_ENV === 'production') {
+    var worker = new MatpowerWorker()
+  } else {
+    var worker = new Worker('src/workers/matpower.js')
+  }
+  return worker
+}
 
-const worker = new MatpowerWorker()
+const worker = create_worker()
 
 export default {
   name: 'Home',
@@ -15,7 +23,19 @@ export default {
       loaded: false,
     }
   },
+  mounted() {
+    this.generatePlot()
+  },
   methods: {
+    generatePlot() {
+      const w = 500
+      const h = 500
+      const svg = d3
+        .select('#plot')
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h)
+    },
     uploadFile(e) {
       this.loaded = false
       this.loading = true
@@ -25,7 +45,9 @@ export default {
         var reader = new FileReader()
         reader.readAsText(file, 'UTF-8')
         reader.onload = async function (evt) {
-          worker.postMessage({ data: evt.target.result })
+          worker.postMessage({
+            data: evt.target.result,
+          })
         }
 
         worker.addEventListener('message', (event) => {
@@ -53,5 +75,5 @@ export default {
   <div v-if="loaded">Number of buses: {{ case_obj.bus.length }}</div>
   <div v-if="loaded">Number of generators: {{ case_obj.gen.length }}</div>
   <div v-if="loaded">Number of branches: {{ case_obj.branch.length }}</div>
-  <div id="graph" />
+  <div id="plot" />
 </template>

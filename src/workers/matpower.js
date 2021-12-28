@@ -1,8 +1,6 @@
 import init, { parse_case } from '../../wasm-matpower/pkg/wasm-matpower'
-// Workaround because Vite is using window.location in Web Workers
-import wasm from '../../wasm-matpower/pkg/wasm-matpower_bg.wasm?url'
-
-init(wasm)
+import wasm from '../../wasm-matpower/pkg/wasm-matpower_bg.wasm'
+init()
 
 // Handle incoming messages
 self.addEventListener(
