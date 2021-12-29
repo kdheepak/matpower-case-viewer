@@ -2,10 +2,12 @@
   "name": "matpower-case-viewer",
   "version": "0.0.0",
   "scripts": {
-    "dev": "npm run wasm && npx parcel index.html",
-    "build": "npm run wasm && NODE_ENV=production npx parcel build --public-url ./ index.html",
     "wasm": "cd wasm-matpower && wasm-pack build --release --target web",
-    "deploy": "sh scripts/deploy.sh"
+    "deploy": "sh scripts/deploy.sh",
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "start": "webpack-dev-server --open --mode development",
+    "start:live": "webpack-dev-server --open --mode development --liveReload"
   },
   "dependencies": {
     "d3": "^7.2.1",
@@ -14,20 +16,32 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@parcel/transformer-vue": "^2.0.1",
+    "@babel/core": "7.9.6",
+    "@babel/preset-env": "^7.10.3",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
+    "@vue/compiler-sfc": "^3.0.0-rc.10",
     "@vue/component-compiler-utils": "^3.3.0",
     "autoprefixer": "^10.4.0",
+    "babel-loader": "8.1.0",
+    "css-loader": "^3.6.0",
+    "css-minimizer-webpack-plugin": "^3.3.1",
     "eslint": "^8.5.0",
     "eslint-plugin-vue": "^8.2.0",
-    "execa": "latest",
-    "parcel": "^2.0.1",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^2.4.5",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
+    "postcss-loader": "^6.2.1",
+    "style-loader": "1.2.1",
     "tailwindcss": "^3.0.8",
-    "typescript": "^4.4.4",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.4",
+    "vue-loader": "16.0.0-beta.7",
     "vue-template-compiler": "^2.6.14",
-    "vue-tsc": "^0.29.8"
+    "vue-tsc": "^0.29.8",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "4.7.1"
   }
 }

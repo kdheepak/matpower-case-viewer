@@ -39,7 +39,7 @@ export default {
       if (file) {
         var reader = new FileReader()
         reader.readAsText(file, 'UTF-8')
-        reader.onload = async function (evt) {
+        reader.onload = function (evt) {
           worker.postMessage({
             data: evt.target.result,
           })

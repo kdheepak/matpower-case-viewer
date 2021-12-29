@@ -1,4 +1,4 @@
-import init, { parse_case } from '/wasm-matpower/pkg'
+import init, { parse_case } from '../../wasm-matpower/pkg/'
 init()
 
 // Handle incoming messages
