@@ -50,7 +50,7 @@ module.exports = {
       template: './src/index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: './src/index.css',
+      filename: 'index.css',
     }),
   ],
 }

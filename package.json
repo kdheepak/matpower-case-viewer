@@ -6,8 +6,8 @@
     "deploy": "sh scripts/deploy.sh",
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "start": "webpack-dev-server --open --mode development",
-    "start:live": "webpack-dev-server --open --mode development --liveReload"
+    "dev": "webpack-dev-server --open --mode development",
+    "dev:live": "webpack-dev-server --open --mode development --live-reload"
   },
   "dependencies": {
     "d3": "^7.2.1",
