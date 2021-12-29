@@ -2,7 +2,9 @@
 import * as d3 from 'd3'
 
 function create_worker() {
-  return new Worker(new URL("../workers/matpower.js", import.meta.url), {type: 'module'})
+  return new Worker(new URL('../workers/matpower.js', import.meta.url), {
+    type: 'module',
+  })
 }
 
 const worker = create_worker()

@@ -1,3 +1,12 @@
+if (process.env.NODE_ENV === 'production') {
+  // different values for production.
+  globalThis.__VUE_OPTIONS_API__ = false
+  globalThis.__VUE_PROD_DEVTOOLS__ = false
+} else {
+  globalThis.__VUE_OPTIONS_API__ = true
+  globalThis.__VUE_PROD_DEVTOOLS__ = true
+}
+
 import { createApp } from 'vue'
 import App from './App.vue'
 import Home from './components/Home.vue'

@@ -3,7 +3,7 @@
 set -e
 # build
 rm -rf dist
-NODE_ENV=ghpages npm run deploy-build
+NODE_ENV=production npx parcel build --public-url ./
 # navigate into the build output directory
 cd dist
 # if you are deploying to a custom domain

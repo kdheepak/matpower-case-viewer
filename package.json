@@ -2,6 +2,8 @@
   "name": "matpower-case-viewer",
   "version": "0.0.0",
   "scripts": {
+    "dev": "npx parcel index.html",
+    "build": "NODE_ENV=production npx parcel build --public-url ./ index.html",
     "deploy": "sh scripts/deploy.sh"
   },
   "dependencies": {
