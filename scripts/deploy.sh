@@ -3,7 +3,7 @@
 set -e
 # build
 rm -rf dist
-NODE_ENV=production npx parcel build --public-url ./
+NODE_ENV=production npm run wasm && npm run build
 # navigate into the build output directory
 cd dist
 # if you are deploying to a custom domain
