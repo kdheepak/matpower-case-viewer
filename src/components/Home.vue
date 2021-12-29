@@ -1,6 +1,6 @@
 <script setup>
 import * as d3 from 'd3'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 function create_worker() {
   console.log('worker')
@@ -11,15 +11,16 @@ function create_worker() {
 
 const worker = create_worker()
 
-const state = ref({
+const data = {
   case_obj: {},
   loading: false,
   loaded: false,
-})
+}
+const state = reactive(data)
 
 function uploadFile(e) {
-  state.value.loaded = false
-  state.value.loading = true
+  state.loaded = false
+  state.loading = true
   const file = e.target.files[0]
   if (file) {
     var reader = new FileReader()
@@ -31,15 +32,15 @@ function uploadFile(e) {
     }
 
     worker.addEventListener('message', (event) => {
-      state.value.case_obj = event.data.data
-      state.value.loaded = true
-      state.value.loading = false
+      state.case_obj = event.data.data
+      state.loaded = true
+      state.loading = false
     })
 
     reader.onerror = function (_) {
-      state.value.case_obj = null
-      state.value.loading = false
-      state.value.loaded = false
+      state.case_obj = null
+      state.loading = false
+      state.loaded = false
     }.bind(this)
   }
 }
