@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="Svelte demo app" />
+		<link rel="icon" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Matpower Case Viewer</title>
+
+		
+
+		<link rel="stylesheet" href="/matpower-case-viewer/_app/assets/start-d5b4de3e.css">
+		<link rel="stylesheet" href="/matpower-case-viewer/_app/assets/pages/__layout.svelte-f3b8f63b.css">
+		<link rel="stylesheet" href="/matpower-case-viewer/_app/assets/pages/index.svelte-4cce26c2.css">
+		<link rel="modulepreload" href="/matpower-case-viewer/_app/start-24b207fc.js">
+		<link rel="modulepreload" href="/matpower-case-viewer/_app/chunks/vendor-88466e13.js">
+		<link rel="modulepreload" href="/matpower-case-viewer/_app/chunks/paths-28a87002.js">
+		<link rel="modulepreload" href="/matpower-case-viewer/_app/pages/__layout.svelte-0d8b70e9.js">
+		<link rel="modulepreload" href="/matpower-case-viewer/_app/pages/index.svelte-759f73b9.js">
+
+		<script type="module">
+			import { start } from "/matpower-case-viewer/_app/start-24b207fc.js";
+			start({
+				target: document.querySelector("#svelte"),
+				paths: {"base":"/matpower-case-viewer","assets":"/matpower-case-viewer"},
+				session: {},
+				route: true,
+				spa: false,
+				trailing_slash: "never",
+				hydrate: {
+					status: 200,
+					error: null,
+					nodes: [
+						import("/matpower-case-viewer/_app/pages/__layout.svelte-0d8b70e9.js"),
+						import("/matpower-case-viewer/_app/pages/index.svelte-759f73b9.js")
+					],
+					url: new URL("sveltekit://prerender/"),
+					params: {}
+				}
+			});
+		</script><script>
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/service-worker.js');
+			}
+		</script>
+	</head>
+	<body>
+		<div id="svelte">
+
+
+<div class="h-screen grid grid-rows-[auto_1fr_auto]"><nav class="container flex z-20 w-full h-24 pt-2 place-items-center justify-between space-x-4 max-w-6xl mx-auto"><div class="relative flex place-items-center h-5"><a sveltekit:prefetch href="/matpower-case-viewer/" class="text-2xl font-black">MATPOWER Case Viewer </a></div>
+  <div class=""><a sveltekit:prefetch href="/matpower-case-viewer/" class=" font-bold px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100">Home
+    </a>
+    <a sveltekit:prefetch href="/matpower-case-viewer/about" class=" font-bold py-2 text-gray-700 rounded-lg hover:bg-gray-100">About
+    </a></div></nav>
+
+  <main class="container max-w-6xl mx-auto">
+
+<div class="flex flex-col h-full"><div class="grid grid-cols-2 justify-items-stretch"><input class="justify-self-start" type="file">
+    <button class="justify-self-end bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4">Reset
+    </button></div>
+  </div></main>
+
+  <footer class="px-4 pt-12 pb-8 text-white bg-black"><div class="container"></div></footer></div>
+
+</div>
+	</body>
+</html>
