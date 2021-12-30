@@ -1,5 +1,3 @@
 {
-  "crates": [
-    "wasm-matpower"
-  ]
+  "crates": ["wasm_matpower"]
 }

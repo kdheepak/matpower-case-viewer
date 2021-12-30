@@ -19,7 +19,7 @@ const config = {
       plugins: [
         ViteRsw({
           profile: 'release',
-          crates: ['wasm-matpower'],
+          crates: ['wasm_matpower'],
           unwatch: ['src/lib/*', 'src/routes/*'],
         }),
       ],
@@ -28,7 +28,7 @@ const config = {
       },
       server: {
         fs: {
-          allow: ['wasm-matpower', '.rsw'],
+          allow: ['wasm_matpower', '.rsw'],
         },
         ...server,
       },

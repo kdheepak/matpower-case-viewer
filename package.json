@@ -2,7 +2,7 @@
   "name": "matpower-case-viewer",
   "version": "0.0.1",
   "scripts": {
-    "wasm": "cd wasm-matpower && wasm-pack build --release --target web",
+    "wasm": "cd wasm_matpower && wasm-pack build --release --target web",
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "package": "svelte-kit package",

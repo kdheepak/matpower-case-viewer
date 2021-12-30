@@ -1,4 +1,4 @@
-import init, { parse_case } from '../../wasm-matpower/pkg/'
+import init, { parse_case } from '../../wasm_matpower/pkg/'
 
 async function init_wasm_matpower() {
   await init()

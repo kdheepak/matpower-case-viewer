@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import MatpowerWorker from '../workers/matpower?worker'
-  import wasm from '../../wasm-matpower/pkg/wasm-matpower_bg.wasm'
+  import wasm from '../../wasm_matpower/pkg/wasm_matpower_bg.wasm'
 
   let worker: Worker
 

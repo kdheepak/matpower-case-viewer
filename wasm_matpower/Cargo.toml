@@ -1,5 +1,5 @@
 [package]
-name = "wasm-matpower"
+name = "wasm_matpower"
 version = "0.1.0"
 authors = ["kdheepak"]
 edition = "2018"
