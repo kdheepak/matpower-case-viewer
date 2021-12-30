@@ -2,14 +2,21 @@
 </script>
 
 <script lang="ts">
+  import Graph from './Graph.svelte'
+
   import { onMount } from 'svelte'
-  import * as d3 from 'd3'
 
   import createWorker from 'worker-iife:../workers/matpower'
   let worker: Worker
   onMount(() => {
     worker = createWorker()
   })
+
+  let case_obj = []
+  let loading = false
+  let loaded = false
+
+  $: graph = case_graph(case_obj)
 
   function case_graph(case_obj) {
     if (case_obj.branch === undefined) {
@@ -34,14 +41,6 @@
       }
     }
   }
-
-  let case_obj = {
-    bus: [],
-    gen: [],
-    branch: [],
-  }
-  let loading = false
-  let loaded = false
 
   function uploadFile(e) {
     loaded = false
@@ -80,5 +79,5 @@
   <div v-if="loaded">Number of buses: {case_obj.bus.length}</div>
   <div v-if="loaded">Number of generators: {case_obj.gen.length}</div>
   <div v-if="loaded">Number of branches: {case_obj.branch.length}</div>
-  <div id="plot" class="h-full" />
+  <Graph {graph} />
 {/if}
