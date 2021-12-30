@@ -10,6 +10,7 @@
   import { forceSimulation, forceLink, forceManyBody, forceCenter } from 'd3-force'
 
   export let graph = { nodes: [], links: [] }
+  export let labels = true
   let d3 = {
     zoom,
     zoomIdentity,
@@ -112,7 +113,14 @@
 <svelte:window on:resize={resize} />
 
 <div class="{cls} flex flex-col">
-  <!-- SVG was here -->
+  <div class="flex justify-center">
+    <div class="form-check">
+      <input type="checkbox" bind:checked={labels} />
+      <label class="form-check-label inline-block text-gray-800" for="flexCheckChecked">
+        Show labels
+      </label>
+    </div>
+  </div>
   <svg class="grow" bind:this={svg} {width}>
     {#each links as link}
       <g stroke="#999" stroke-opacity="0.6">
@@ -139,6 +147,16 @@
       >
         <title>{point.id}</title></circle
       >
+      {#if labels}
+        <text
+          class="label"
+          transform="translate({transform.x} {transform.y}) scale({transform.k} {transform.k})"
+          x={point.x}
+          y={point.y}
+          dx="12"
+          dy=".35em">{point.name}</text
+        >
+      {/if}
     {/each}
   </svg>
 </div>

@@ -19,15 +19,10 @@
   let loaded = false
 
   // persist case data
-  const case_obj = writable({})
-
-  if (browser) {
-    $case_obj = localStorage.getItem('matpowerCase') || {}
-    case_obj.subscribe((val) => localStorage.setItem('matpowerCase', JSON.stringify(val)))
-  }
+  const case_obj = writable({ bus: [], branch: [], gen: [] })
 
   function resetCase(e) {
-    localStorage.removeItem('matpowerCase')
+    $case_obj = { bus: [], branch: [], gen: [] }
   }
 
   $: graph = case_graph($case_obj)
@@ -57,8 +52,8 @@
   }
 
   function uploadFile(e) {
-    loaded = false
     loading = true
+    loaded = false
     const file = e.target.files[0]
     if (file) {
       var reader = new FileReader()
@@ -71,12 +66,12 @@
 
       worker.addEventListener('message', (event) => {
         $case_obj = event.data.data
-        loaded = true
         loading = false
+        loaded = true
       })
 
       reader.onerror = function (_) {
-        $case_obj = null
+        $case_obj = { bus: [], branch: [], gen: [] }
         loading = false
         loaded = false
       }.bind(this)
@@ -100,19 +95,16 @@
     <div class="grow grid grid-areas-layout justify-items-stretch my-auto">
       <div
         class="grid-in-bus grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
-        v-if="loaded"
       >
         Number of buses: {$case_obj.bus.length}
       </div>
       <div
         class="grid-in-gen grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
-        v-if="loaded"
       >
         Number of generators: {$case_obj.gen.length}
       </div>
       <div
         class="grid-in-branch grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
-        v-if="loaded"
       >
         Number of branches: {$case_obj.branch.length}
       </div>
