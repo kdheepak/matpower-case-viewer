@@ -7,33 +7,46 @@
   import { onMount } from 'svelte'
 
   import createWorker from 'worker-iife:../workers/matpower'
-  import { style } from 'd3'
+  import { writable } from 'svelte/store'
+  import { browser } from '$app/env'
+
   let worker: Worker
   onMount(() => {
     worker = createWorker()
   })
 
-  let case_obj = []
   let loading = false
   let loaded = false
 
-  $: graph = case_graph(case_obj)
+  // persist case data
+  const case_obj = writable({})
 
-  function case_graph(case_obj) {
-    if (case_obj.branch === undefined) {
+  if (browser) {
+    $case_obj = localStorage.getItem('matpowerCase') || {}
+    case_obj.subscribe((val) => localStorage.setItem('matpowerCase', JSON.stringify(val)))
+  }
+
+  function resetCase(e) {
+    localStorage.removeItem('matpowerCase')
+  }
+
+  $: graph = case_graph($case_obj)
+
+  function case_graph(obj) {
+    if (obj.branch === undefined) {
       return {
         nodes: [],
         links: [],
       }
     } else {
-      const node_names = case_obj.bus_name
-      const nodes = case_obj.bus.map((element, i) => {
+      const node_names = obj.bus_name
+      const nodes = obj.bus.map((element, i) => {
         return {
           id: element.idx,
           name: node_names[i] ? node_names[i] : element.idx,
         }
       })
-      const links = case_obj.branch.map((element) => {
+      const links = obj.branch.map((element) => {
         return { source: element.f_bus, target: element.t_bus }
       })
       return {
@@ -57,13 +70,13 @@
       }
 
       worker.addEventListener('message', (event) => {
-        case_obj = event.data.data
+        $case_obj = event.data.data
         loaded = true
         loading = false
       })
 
       reader.onerror = function (_) {
-        case_obj = null
+        $case_obj = null
         loading = false
         loaded = false
       }.bind(this)
@@ -72,8 +85,14 @@
 </script>
 
 <div class="flex flex-col h-full">
-  <div>
-    <input on:change={uploadFile} type="file" />
+  <div class="grid grid-cols-2 justify-items-stretch">
+    <input class="justify-self-start" on:change={uploadFile} type="file" />
+    <button
+      class="justify-self-end bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4"
+      on:click={resetCase}
+    >
+      Reset
+    </button>
   </div>
   {#if loading}
     <div>Loading...</div>
@@ -83,19 +102,19 @@
         class="grid-in-bus grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
         v-if="loaded"
       >
-        Number of buses: {case_obj.bus.length}
+        Number of buses: {$case_obj.bus.length}
       </div>
       <div
         class="grid-in-gen grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
         v-if="loaded"
       >
-        Number of generators: {case_obj.gen.length}
+        Number of generators: {$case_obj.gen.length}
       </div>
       <div
         class="grid-in-branch grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
         v-if="loaded"
       >
-        Number of branches: {case_obj.branch.length}
+        Number of branches: {$case_obj.branch.length}
       </div>
       <Graph class="grid-in-graph justify-content align-content" {graph} />
     </div>
