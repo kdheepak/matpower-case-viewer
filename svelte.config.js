@@ -14,13 +14,13 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
-    // fix gh-pages assets not loaded
-    ...(prod && {
-      paths: {
-        assets: `https://kdheepak.com{path}`,
-        base: path,
-      },
-    }),
+    // // fix gh-pages assets not loaded
+    // ...(prod && {
+    //   paths: {
+    //     assets: `https://kdheepak.com{path}`,
+    //     base: path,
+    //   },
+    // }),
 
     adapter: adapter({
       // default options are shown

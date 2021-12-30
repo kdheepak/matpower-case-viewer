@@ -25,7 +25,6 @@
       var reader = new FileReader()
       reader.readAsText(file, 'UTF-8')
       reader.onload = function (evt) {
-        console.log(evt.target.result)
         worker.postMessage({
           data: evt.target.result,
         })
