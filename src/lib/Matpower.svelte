@@ -4,7 +4,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import * as d3 from 'd3'
-  import wasm from '../../wasm_matpower/pkg/wasm_matpower_bg.wasm'
 
   import createWorker from 'worker-iife:../workers/matpower'
   let worker: Worker
