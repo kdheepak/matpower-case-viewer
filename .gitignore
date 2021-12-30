@@ -1,7 +1,9 @@
-node_modules
 .DS_Store
-dist
-dist-ssr
-.cache
-.parcel-cache
-*.local
+node_modules
+/build
+/dist
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
