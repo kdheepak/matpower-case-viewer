@@ -65,6 +65,7 @@
           .on('zoom', zoomed),
       )
   })
+
   function simulationUpdate() {
     simulation.tick()
     nodes = [...nodes]
@@ -103,44 +104,52 @@
   function resize() {
     ;({ width, height } = svg.getBoundingClientRect())
   }
+
+  let cls
+  export { cls as class }
 </script>
 
 <svelte:window on:resize={resize} />
 
-<!-- SVG was here -->
-<svg bind:this={svg} {width} {height}>
-  {#each links as link}
-    <g stroke="#999" stroke-opacity="0.6">
-      <line
-        x1={link.source.x}
-        y1={link.source.y}
-        x2={link.target.x}
-        y2={link.target.y}
+<div class="{cls} flex flex-col">
+  <!-- SVG was here -->
+  <svg class="grow" bind:this={svg} {width}>
+    {#each links as link}
+      <g stroke="#999" stroke-opacity="0.6">
+        <line
+          x1={link.source.x}
+          y1={link.source.y}
+          x2={link.target.x}
+          y2={link.target.y}
+          transform="translate({transform.x} {transform.y}) scale({transform.k} {transform.k})"
+        >
+          <title>{link.source.id}</title>
+        </line>
+      </g>
+    {/each}
+
+    {#each nodes as point}
+      <circle
+        class="node"
+        r="5"
+        fill={colourScale(point.group)}
+        cx={point.x}
+        cy={point.y}
         transform="translate({transform.x} {transform.y}) scale({transform.k} {transform.k})"
       >
-        <title>{link.source.id}</title>
-      </line>
-    </g>
-  {/each}
-
-  {#each nodes as point}
-    <circle
-      class="node"
-      r="5"
-      fill={colourScale(point.group)}
-      cx={point.x}
-      cy={point.y}
-      transform="translate({transform.x} {transform.y}) scale({transform.k} {transform.k})"
-    >
-      <title>{point.id}</title></circle
-    >
-  {/each}
-</svg>
+        <title>{point.id}</title></circle
+      >
+    {/each}
+  </svg>
+</div>
 
 <style>
   svg {
-    float: left;
+    width: 100%;
+    height: 70%;
+    background-color: #f0f0f0;
   }
+
   circle {
     stroke: #fff;
     stroke-width: 1.5;

@@ -7,6 +7,7 @@
   import { onMount } from 'svelte'
 
   import createWorker from 'worker-iife:../workers/matpower'
+  import { style } from 'd3'
   let worker: Worker
   onMount(() => {
     worker = createWorker()
@@ -70,14 +71,33 @@
   }
 </script>
 
-<div>
-  <input on:change={uploadFile} type="file" />
+<div class="flex flex-col h-full">
+  <div>
+    <input on:change={uploadFile} type="file" />
+  </div>
+  {#if loading}
+    <div>Loading...</div>
+  {:else if loaded}
+    <div class="grow grid grid-areas-layout justify-items-stretch my-auto">
+      <div
+        class="grid-in-bus grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
+        v-if="loaded"
+      >
+        Number of buses: {case_obj.bus.length}
+      </div>
+      <div
+        class="grid-in-gen grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
+        v-if="loaded"
+      >
+        Number of generators: {case_obj.gen.length}
+      </div>
+      <div
+        class="grid-in-branch grid place-content-center text-center text-green-400 font-mono hover:underline hover:decoration-green-500"
+        v-if="loaded"
+      >
+        Number of branches: {case_obj.branch.length}
+      </div>
+      <Graph class="grid-in-graph justify-content align-content" {graph} />
+    </div>
+  {/if}
 </div>
-{#if loading}
-  <div>Loading...</div>
-{:else if loaded}
-  <div v-if="loaded">Number of buses: {case_obj.bus.length}</div>
-  <div v-if="loaded">Number of generators: {case_obj.gen.length}</div>
-  <div v-if="loaded">Number of branches: {case_obj.branch.length}</div>
-  <Graph {graph} />
-{/if}

@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@iconify/svelte": "^2.1.0",
+    "@savvywombat/tailwindcss-grid-areas": "^2.0.0",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
