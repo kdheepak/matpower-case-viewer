@@ -3,6 +3,7 @@ import preprocess from 'svelte-preprocess'
 import { ViteRsw } from 'vite-plugin-rsw'
 
 const server = {}
+const path = '/matpower-case-viewer'
 
 const prod = process.env.NODE_ENV === 'production'
 
@@ -13,10 +14,24 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
-    adapter: adapter({}),
+    // fix gh-pages assets not loaded
+    ...(prod && {
+      paths: {
+        assets: `https://kdheepak.com{path}`,
+        base: path,
+      },
+    }),
+
+    adapter: adapter({
+      // default options are shown
+      pages: 'dist',
+      assets: 'dist',
+      fallback: null,
+    }),
 
     // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte',
+
     vite: {
       plugins: [
         ViteRsw({
