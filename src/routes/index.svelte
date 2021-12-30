@@ -1,2 +1,13 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script context="module" lang="ts">
+  export const prerender = true
+</script>
+
+<script lang="ts">
+  import Matpower from '$lib/Matpower.svelte'
+</script>
+
+<svelte:head>
+  <title>Matpower Case Viewer</title>
+</svelte:head>
+
+<Matpower />
