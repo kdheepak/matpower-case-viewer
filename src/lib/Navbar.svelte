@@ -6,12 +6,12 @@
   class="container flex z-20 w-full h-24 pt-2 place-items-center justify-between space-x-4 max-w-6xl mx-auto"
 >
   <div class="relative flex place-items-center h-5">
-    <a sveltekit:prefetch  href="/" class="text-2xl font-black"> MATPOWER Case Viewer </a>
+    <a sveltekit:prefetch  href="./" class="text-2xl font-black"> MATPOWER Case Viewer </a>
   </div>
   <div class="justify-center place-items-center">
     <a
       sveltekit:prefetch
-      href="/"
+      href="./"
       class="{$page === '/'
         ? 'border-b-2 border-yellow-600'
         : ''} font-bold px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100"
@@ -20,7 +20,7 @@
     </a>
     <a
       sveltekit:prefetch
-      href="/about"
+      href="./about"
       class="{$page === '/about'
         ? 'border-b-2 border-yellow-600'
         : ''} font-bold px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100"
