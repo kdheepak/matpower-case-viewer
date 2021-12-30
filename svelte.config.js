@@ -4,6 +4,8 @@ import { ViteRsw } from 'vite-plugin-rsw'
 
 const server = {}
 
+const prod = process.env.NODE_ENV === 'production'
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   // Consult https://github.com/sveltejs/svelte-preprocess
@@ -11,7 +13,7 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
-    adapter: adapter(),
+    adapter: adapter({}),
 
     // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte',
