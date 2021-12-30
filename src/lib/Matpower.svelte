@@ -23,6 +23,8 @@
 
   function resetCase(e) {
     $case_obj = { bus: [], branch: [], gen: [] }
+    loaded = false
+    loading = false
   }
 
   $: graph = case_graph($case_obj)
