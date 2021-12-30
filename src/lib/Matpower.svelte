@@ -1,10 +1,15 @@
+<script context="module">
+</script>
+
 <script lang="ts">
   import { onMount } from 'svelte'
-  import MatpowerWorker from '../workers/matpower?worker'
-  import wasm from '../../wasm_matpower/pkg/wasm_matpower_bg.wasm'
   import * as d3 from 'd3'
 
+  import createWorker from 'worker-iife:../workers/matpower'
   let worker: Worker
+  onMount(() => {
+    worker = createWorker()
+  })
 
   function case_graph(case_obj) {
     if (case_obj.branch === undefined) {
@@ -29,10 +34,6 @@
       }
     }
   }
-
-  onMount(async () => {
-    worker = new MatpowerWorker()
-  })
 
   let case_obj = {
     bus: [],

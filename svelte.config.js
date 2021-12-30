@@ -1,6 +1,7 @@
 import adapter from '@sveltejs/adapter-static'
 import preprocess from 'svelte-preprocess'
-import { ViteRsw } from 'vite-plugin-rsw'
+
+import worker, { pluginHelper } from 'vite-plugin-worker'
 
 const server = {}
 const path = '/matpower-case-viewer'
@@ -14,14 +15,6 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
-    // // fix gh-pages assets not loaded
-    // ...(prod && {
-    //   paths: {
-    //     assets: `https://kdheepak.com{path}`,
-    //     base: path,
-    //   },
-    // }),
-
     adapter: adapter({
       // default options are shown
       pages: 'dist',
@@ -33,13 +26,7 @@ const config = {
     target: '#svelte',
 
     vite: {
-      plugins: [
-        ViteRsw({
-          profile: 'release',
-          crates: ['wasm_matpower'],
-          unwatch: ['src/lib/*', 'src/routes/*'],
-        }),
-      ],
+      plugins: [pluginHelper(), worker.default({})],
       ssr: {
         noExternal: [/^@smui(?:-extra)?\//],
       },
