@@ -1,11 +1,7 @@
-importScripts('../../wasm_matpower/pkg/wasm_matpower.js')
-
-console.log('Initializing worker')
-
-const { parse_case } = wasm_bindgen
+import init, { parse_case } from 'wasm_matpower'
 
 async function init_wasm_matpower() {
-  await wasm_bindgen('../../wasm_matpower/pkg/wasm_matpower_bg.wasm')
+  await init()
 
   // Handle incoming messages
   self.addEventListener(

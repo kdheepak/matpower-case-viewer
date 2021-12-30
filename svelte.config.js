@@ -2,6 +2,7 @@ import adapter from '@sveltejs/adapter-static'
 import preprocess from 'svelte-preprocess'
 
 import worker, { pluginHelper } from 'vite-plugin-worker'
+import wasmPack from 'vite-plugin-wasm-pack'
 
 const server = {}
 const path = '/matpower-case-viewer'
@@ -26,7 +27,7 @@ const config = {
     target: '#svelte',
 
     vite: {
-      plugins: [pluginHelper(), worker.default({})],
+      plugins: [pluginHelper(), worker.default({}), wasmPack(['./wasm_matpower'], [])],
       ssr: {
         noExternal: [/^@smui(?:-extra)?\//],
       },
