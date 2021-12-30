@@ -2,8 +2,33 @@
   import { onMount } from 'svelte'
   import MatpowerWorker from '../workers/matpower?worker'
   import wasm from '../../wasm_matpower/pkg/wasm_matpower_bg.wasm'
+  import * as d3 from 'd3'
 
   let worker: Worker
+
+  function case_graph(case_obj) {
+    if (case_obj.branch === undefined) {
+      return {
+        nodes: [],
+        links: [],
+      }
+    } else {
+      const node_names = case_obj.bus_name
+      const nodes = case_obj.bus.map((element, i) => {
+        return {
+          id: element.idx,
+          name: node_names[i] ? node_names[i] : element.idx,
+        }
+      })
+      const links = case_obj.branch.map((element) => {
+        return { source: element.f_bus, target: element.t_bus }
+      })
+      return {
+        nodes: nodes,
+        links: links,
+      }
+    }
+  }
 
   onMount(async () => {
     worker = new MatpowerWorker()
@@ -54,4 +79,5 @@
   <div v-if="loaded">Number of buses: {case_obj.bus.length}</div>
   <div v-if="loaded">Number of generators: {case_obj.gen.length}</div>
   <div v-if="loaded">Number of branches: {case_obj.branch.length}</div>
+  <div id="plot" class="h-full" />
 {/if}

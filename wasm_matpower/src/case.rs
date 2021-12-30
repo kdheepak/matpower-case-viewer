@@ -961,11 +961,12 @@ fn test_case() {
   let entries = std::fs::read_dir("../../matpower/data/").unwrap().map(|res| res.map(|e| e.path())).collect::<Vec<_>>();
   for f in entries.into_iter() {
     println!("Parsing {:?}", &f.as_ref().unwrap());
-    let s = std::fs::read_to_string(f.unwrap()).unwrap();
+    let f = f.unwrap();
+    let s = std::fs::read_to_string(f.clone()).unwrap();
 
     let r = _case(&s);
     if r.is_err() {
-      dbg!(r.unwrap_err());
+      dbg!(f);
     }
   }
 }
