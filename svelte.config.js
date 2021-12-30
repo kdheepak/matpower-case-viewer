@@ -5,9 +5,12 @@ import worker, { pluginHelper } from 'vite-plugin-worker'
 import wasmPack from 'vite-plugin-wasm-pack'
 
 const server = {}
-const path = '/matpower-case-viewer'
-
 const prod = process.env.NODE_ENV === 'production'
+
+let paths = {}
+if (prod) {
+  paths = { base: '/matpower-case-viewer' }
+}
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -16,6 +19,7 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
+    paths,
     adapter: adapter({
       // default options are shown
       pages: 'dist',
