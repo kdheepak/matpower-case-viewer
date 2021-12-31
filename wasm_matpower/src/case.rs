@@ -25,6 +25,8 @@ use nom_supreme::{
   ParserExt,
 };
 use serde::{Deserialize, Serialize};
+use typescript_definitions::{TypeScriptify, TypescriptDefinition};
+use wasm_bindgen::prelude::*;
 
 type Span<'a> = LocatedSpan<&'a str>;
 type PError<'a> = ErrorTree<Span<'a>>;
@@ -153,7 +155,7 @@ where
   delimited(multispace0, f, multispace0)
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Copy, TypeScriptify, TypescriptDefinition)]
 enum BusType {
   PQ = 1,
   PV = 2,
@@ -181,8 +183,8 @@ fn test_bus_type() {
   assert!(bus_type("5".into()).is_err());
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
-struct Bus {
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy, TypeScriptify, TypescriptDefinition)]
+pub struct Bus {
   idx: usize,             // bus number
   bus_type: BusType,      // BusType
   pd: f64,                // real power demand (MW)
@@ -273,8 +275,8 @@ fn test_bus() {
   });
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
-struct Gen {
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy, TypeScriptify, TypescriptDefinition)]
+pub struct Gen {
   gen: usize,           // bus 1 bus number
   pg: f64,              // 2 real power output (mw)
   qg: f64,              // 3 reactive power output (mvar)
@@ -401,8 +403,8 @@ fn test_gen() {
   });
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
-struct Branch {
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy, TypeScriptify, TypescriptDefinition)]
+pub struct Branch {
   f_bus: f64,             // 1 “from” bus number
   t_bus: f64,             // 2 “to” bus number
   br_r: f64,              // 3 resistance (p.u.)
@@ -509,7 +511,7 @@ fn test_branch() {
   });
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Copy, TypeScriptify, TypescriptDefinition)]
 enum CostModel {
   PiecewiseLinear = 1,
   Polynomial = 2,
@@ -528,8 +530,8 @@ fn test_cost_model() {
   assert!(cost_model("5".into()).is_err());
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
-struct GenCost {
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, TypeScriptify, TypescriptDefinition)]
+pub struct GenCost {
   model: CostModel,
   startup: f64,
   shutdown: f64,
@@ -573,7 +575,7 @@ fn test_gen_cost() {
   });
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Copy, TypeScriptify, TypescriptDefinition)]
 enum ServiceStatus {
   OutOfService = 0,
   InService = 1,
@@ -592,8 +594,8 @@ fn test_service_status() {
   assert!(service_status("5".into()).is_err());
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
-struct DcLine {
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy, TypeScriptify, TypescriptDefinition)]
+pub struct DcLine {
   f_bus: usize,             // 1 “from” bus number
   t_bus: usize,             // 2 “to” bus number
   br_status: ServiceStatus, // 3 initial branch status, 1 = in-service, 0 = out-of-service
@@ -725,8 +727,8 @@ fn test_dcline() {
         });
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Copy)]
-enum Version {
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, Copy, TypeScriptify, TypescriptDefinition)]
+pub enum Version {
   Version1 = 1,
   Version2 = 2,
 }
@@ -764,7 +766,7 @@ pub fn identifier(i: Span) -> PResult<Span> {
   recognize(pair(alt((alpha1, tag("_"))), many0(alt((alphanumeric1, tag("_")))))).context("identifier").parse(i)
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, TypeScriptify, TypescriptDefinition)]
 pub struct Case {
   name: String,
   version: Version,
@@ -969,4 +971,10 @@ fn test_case() {
       dbg!(f);
     }
   }
+}
+
+#[test]
+fn test_typescript() {
+  use typescript_definitions::{TypeScriptify, TypeScriptifyTrait, TypescriptDefinition};
+  println!("{}", Bus::type_script_ify());
 }

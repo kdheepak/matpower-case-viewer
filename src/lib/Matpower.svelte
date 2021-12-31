@@ -10,6 +10,8 @@
   import { writable } from 'svelte/store'
   import { browser } from '$app/env'
 
+  import { Case } from '../../wasm_matpower/pkg'
+
   let worker: Worker
   onMount(() => {
     worker = createWorker()
@@ -19,17 +21,30 @@
   let loaded = false
 
   // persist case data
-  const case_obj = writable({ bus: [], branch: [], gen: [] })
+  function createDefaultCase(): Case {
+    return {
+      bus: [],
+      branch: [],
+      gen: [],
+      gencost: [],
+      name: '',
+      base_mva: 0,
+      dcline: [],
+      bus_name: [],
+      version: '',
+    }
+  }
+  const case_obj = writable(createDefaultCase())
 
-  function resetCase(e) {
-    $case_obj = { bus: [], branch: [], gen: [] }
+  function resetCase(_: Event) {
+    $case_obj = createDefaultCase()
     loaded = false
     loading = false
   }
 
   $: graph = case_graph($case_obj)
 
-  function case_graph(obj) {
+  function case_graph(obj: Case) {
     if (obj.branch === undefined) {
       return {
         nodes: [],
@@ -53,10 +68,11 @@
     }
   }
 
-  function uploadFile(e) {
+  function uploadFile(e: Event) {
+    console.log(e)
     loading = true
     loaded = false
-    const file = e.target.files[0]
+    const file = (e.target as HTMLInputElement).files[0]
     if (file) {
       var reader = new FileReader()
       reader.readAsText(file, 'UTF-8')
@@ -72,11 +88,11 @@
         loaded = true
       })
 
-      reader.onerror = function (_) {
-        $case_obj = { bus: [], branch: [], gen: [] }
+      reader.onerror = () => {
+        $case_obj = createDefaultCase()
         loading = false
         loaded = false
-      }.bind(this)
+      }
     }
   }
 </script>
